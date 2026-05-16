@@ -179,7 +179,7 @@ async def analyze(req: TradeRequest):
             },
         )
 
-    api_key = os.getenv("ANTHROPIC_API_KEY") or os.getenv("API_KEY")
+    api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
         return JSONResponse(
             status_code=500,
@@ -189,14 +189,11 @@ async def analyze(req: TradeRequest):
     try:
         client = anthropic.Anthropic(api_key=api_key)
         message = client.messages.create(
-            model="claude-sonnet-4-6",
+            model="claude-haiku-4-5-20251001",
             max_tokens=4096,
             system=SYSTEM_PROMPT,
             messages=[
-                {
-                    "role": "user",
-                    "content": f"Analyse the following trade data:\n\n{trade_data}",
-                }
+                {"role": "user", "content": f"Analyse the following trade data:\n\n{trade_data}"},
             ],
         )
         raw = message.content[0].text
