@@ -201,18 +201,3 @@ recommendations as [], and self_check.caveats explaining exactly what was missin
 
 ## Stack
 Python, FastAPI, HTML, uv, Anthropic, Claude API (claude-sonnet)
-
-## Run Locally
-
-```bash
-# Install dependencies
-uv sync
-
-# Add your Anthropic API key
-echo "ANTHROPIC_API_KEY=your_key_here" > .env
-
-# Start the server
-uv run uvicorn main:app --reload --port 8000
-```
-
-Open http://localhost:8000
