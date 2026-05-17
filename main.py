@@ -2,7 +2,7 @@ import json
 import re
 import os
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
@@ -186,37 +186,35 @@ async def analyze(req: TradeRequest):
             content={"error": "API key not configured. Add ANTHROPIC_API_KEY to .env"},
         )
 
-    try:
-        client = anthropic.Anthropic(api_key=api_key)
-        message = client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=8192,
-            system=SYSTEM_PROMPT,
-            messages=[
-                {"role": "user", "content": f"Analyse the following trade data:\n\n{trade_data}"},
-            ],
-        )
-        raw = message.content[0].text
-        result = extract_json_from_response(raw)
-        return JSONResponse(content=result)
+    def sse(payload: dict) -> str:
+        return f"data: {json.dumps(payload)}\n\n"
 
-    except json.JSONDecodeError as e:
-        return JSONResponse(
-            status_code=500,
-            content={"error": f"Failed to parse model response as JSON: {str(e)}"},
-        )
-    except anthropic.AuthenticationError:
-        return JSONResponse(
-            status_code=401,
-            content={"error": "Invalid API key. Check your ANTHROPIC_API_KEY in .env"},
-        )
-    except anthropic.APIError as e:
-        return JSONResponse(
-            status_code=502,
-            content={"error": f"Claude API error: {str(e)}"},
-        )
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={"error": f"Unexpected error: {str(e)}"},
-        )
+    def stream_response():
+        full_text = ""
+        try:
+            client = anthropic.Anthropic(api_key=api_key)
+            with client.messages.stream(
+                model="claude-haiku-4-5-20251001",
+                max_tokens=8192,
+                system=SYSTEM_PROMPT,
+                messages=[
+                    {"role": "user", "content": f"Analyse the following trade data:\n\n{trade_data}"},
+                ],
+            ) as stream:
+                for text_chunk in stream.text_stream:
+                    full_text += text_chunk
+                    yield sse({"type": "chunk", "text": text_chunk})
+
+            result = extract_json_from_response(full_text)
+            yield sse({"type": "result", "data": result})
+
+        except anthropic.AuthenticationError:
+            yield sse({"type": "error", "message": "Invalid API key. Check your ANTHROPIC_API_KEY in .env"})
+        except anthropic.APIError as e:
+            yield sse({"type": "error", "message": f"Claude API error: {str(e)}"})
+        except json.JSONDecodeError as e:
+            yield sse({"type": "error", "message": f"Failed to parse model response as JSON: {str(e)}"})
+        except Exception as e:
+            yield sse({"type": "error", "message": f"Unexpected error: {str(e)}"})
+
+    return StreamingResponse(stream_response(), media_type="text/event-stream")

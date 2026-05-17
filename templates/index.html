@@ -13,7 +13,6 @@
       --surface2:  #1f2937;
       --border:    #30363d;
       --accent:    #58a6ff;
-      --accent2:   #3fb950;
       --warn:      #d29922;
       --danger:    #f85149;
       --text:      #e6edf3;
@@ -39,27 +38,10 @@
       align-items: center;
       gap: 0.75rem;
     }
+    header .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+    header .tagline { color: var(--muted); font-size: 0.875rem; border-left: 1px solid var(--border); padding-left: 0.75rem; margin-left: 0.25rem; }
 
-    header .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: -0.5px;
-    }
-
-    header .tagline {
-      color: var(--muted);
-      font-size: 0.875rem;
-      border-left: 1px solid var(--border);
-      padding-left: 0.75rem;
-      margin-left: 0.25rem;
-    }
-
-    main {
-      max-width: 900px;
-      margin: 2.5rem auto;
-      padding: 0 1.5rem;
-    }
+    main { max-width: 900px; margin: 2.5rem auto; padding: 0 1.5rem; }
 
     .card {
       background: var(--surface);
@@ -68,94 +50,94 @@
       padding: 1.75rem;
       margin-bottom: 1.5rem;
     }
-
-    .card-title {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
+    .card-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1rem; }
 
     textarea {
-      width: 100%;
-      height: 200px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-family: 'Menlo', 'Consolas', monospace;
-      font-size: 0.8rem;
-      padding: 0.875rem 1rem;
-      resize: vertical;
-      outline: none;
-      transition: border-color 0.15s;
+      width: 100%; height: 200px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text); font-family: 'Menlo', 'Consolas', monospace; font-size: 0.8rem;
+      padding: 0.875rem 1rem; resize: vertical; outline: none; transition: border-color 0.15s;
     }
-
     textarea:focus { border-color: var(--accent); }
     textarea::placeholder { color: var(--muted); }
 
-    .btn-row {
-      display: flex;
-      gap: 0.75rem;
-      margin-top: 1rem;
-    }
+    .btn-row { display: flex; gap: 0.75rem; margin-top: 1rem; }
 
     button {
-      padding: 0.6rem 1.25rem;
-      border-radius: 6px;
-      border: 1px solid transparent;
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity 0.15s, background 0.15s;
+      padding: 0.6rem 1.25rem; border-radius: 6px; border: 1px solid transparent;
+      font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: opacity 0.15s, background 0.15s;
     }
-
     button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #0d1117;
-    }
+    .btn-primary { background: var(--accent); color: #0d1117; }
     .btn-primary:not(:disabled):hover { opacity: 0.85; }
-
-    .btn-secondary {
-      background: transparent;
-      border-color: var(--border);
-      color: var(--text);
-    }
+    .btn-secondary { background: transparent; border-color: var(--border); color: var(--text); }
     .btn-secondary:not(:disabled):hover { background: var(--surface2); }
 
-    /* Spinner */
-    .spinner {
+    /* ── Live Reasoning Panel ── */
+    #reasoningPanel {
       display: none;
+      margin-top: 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    #reasoningPanel.active { display: block; }
+
+    .reasoning-header {
+      background: var(--surface2);
+      padding: 0.6rem 1rem;
+      display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
       color: var(--muted);
-      font-size: 0.875rem;
-      padding: 1rem 0;
     }
-    .spinner.active { display: flex; }
-    .spinner-ring {
-      width: 20px; height: 20px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+    .reasoning-header .pulse {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+      animation: pulse 1.2s ease-in-out infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.75); } }
+
+    /* Step progress bar */
+    .step-track {
+      display: flex;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .step-pill {
+      font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.6rem;
+      border-radius: 20px; border: 1px solid var(--border);
+      color: var(--muted); background: transparent; transition: all 0.3s;
+      white-space: nowrap;
+    }
+    .step-pill.active  { border-color: var(--accent); color: var(--accent); background: rgba(88,166,255,0.08); }
+    .step-pill.done    { border-color: var(--low);    color: var(--low);    background: rgba(63,185,80,0.08); }
+
+    #reasoningText {
+      font-family: 'Menlo', 'Consolas', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 0.875rem 1rem;
+      max-height: 220px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: var(--bg);
+      line-height: 1.7;
+    }
+    /* Auto-scroll anchor */
+    #reasoningAnchor { height: 1px; }
 
     /* Error banner */
     .error-banner {
-      display: none;
-      background: rgba(248, 81, 73, 0.12);
-      border: 1px solid var(--danger);
-      border-radius: 6px;
-      color: var(--danger);
-      padding: 0.875rem 1rem;
-      font-size: 0.875rem;
-      margin-top: 1rem;
+      display: none; background: rgba(248,81,73,0.12); border: 1px solid var(--danger);
+      border-radius: 6px; color: var(--danger); padding: 0.875rem 1rem; font-size: 0.875rem; margin-top: 1rem;
     }
     .error-banner.active { display: block; }
 
@@ -163,194 +145,66 @@
     #results { display: none; }
     #results.active { display: block; }
 
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
+    .section-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+    .section-header h2 { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .section-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; }
 
-    .section-header h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .section-icon {
-      width: 28px; height: 28px;
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.875rem;
-    }
-
-    /* Stats grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1rem;
-    }
-
-    .stat-box {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-    }
-
-    .stat-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-    }
-
-    .stat-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+    .stat-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+    .stat-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.4rem; }
+    .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--text); }
     .stat-value.positive { color: var(--low); }
     .stat-value.negative { color: var(--high); }
     .stat-value.null-val { color: var(--muted); font-size: 1rem; }
 
-    /* Entity pills */
     .pill-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
-    .pill {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 0.25rem 0.75rem;
-      font-size: 0.8rem;
-      color: var(--accent);
-      font-weight: 500;
-    }
+    .pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.8rem; color: var(--accent); font-weight: 500; }
 
-    .meta-row {
-      display: flex; flex-wrap: wrap; gap: 1.5rem;
-      margin-top: 0.75rem;
-    }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 0.75rem; }
     .meta-item { font-size: 0.8rem; color: var(--muted); }
     .meta-item span { color: var(--text); }
 
-    /* Patterns */
-    .pattern-item {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--border);
-      border-radius: 6px;
-      padding: 0.875rem 1rem;
-      margin-bottom: 0.75rem;
-    }
-    .pattern-item.High  { border-left-color: var(--high); }
+    .pattern-item { background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--border); border-radius: 6px; padding: 0.875rem 1rem; margin-bottom: 0.75rem; }
+    .pattern-item.High   { border-left-color: var(--high); }
     .pattern-item.Medium { border-left-color: var(--medium); }
-    .pattern-item.Low   { border-left-color: var(--low); }
-
+    .pattern-item.Low    { border-left-color: var(--low); }
     .pattern-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.4rem; }
     .pattern-name { font-weight: 600; font-size: 0.9rem; }
     .pattern-evidence { font-size: 0.8rem; color: var(--muted); }
     .pattern-dp { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
 
-    .severity-badge {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
-      white-space: nowrap;
-    }
+    .severity-badge { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.55rem; border-radius: 4px; white-space: nowrap; }
     .severity-badge.High   { background: rgba(248,81,73,0.15);  color: var(--high); }
     .severity-badge.Medium { background: rgba(210,153,34,0.15); color: var(--medium); }
     .severity-badge.Low    { background: rgba(63,185,80,0.15);  color: var(--low); }
 
-    /* Risk metrics */
-    .risk-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-    }
+    .risk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+    .risk-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
 
-    .risk-box {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-    }
-
-    /* Confidence check */
-    .confidence-block {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .conf-badge {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.875rem 1.25rem;
-      min-width: 110px;
-    }
+    .confidence-block { display: flex; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+    .conf-badge { display: flex; flex-direction: column; align-items: center; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.875rem 1.25rem; min-width: 110px; }
     .conf-badge .badge-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.3rem; }
     .conf-badge .badge-val { font-size: 1.1rem; font-weight: 700; }
     .badge-val.High   { color: var(--high); }
     .badge-val.Medium { color: var(--medium); }
     .badge-val.Low    { color: var(--low); }
-    .badge-val.true   { color: var(--low); }
-    .badge-val.false  { color: var(--high); }
-
-    .caveats-box {
-      flex: 1;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.875rem 1rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      min-width: 200px;
-    }
+    .badge-val.true  { color: var(--low); }
+    .badge-val.false { color: var(--high); }
+    .caveats-box { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.875rem 1rem; font-size: 0.85rem; color: var(--muted); min-width: 200px; }
     .caveats-box strong { color: var(--text); display: block; margin-bottom: 0.3rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
 
-    /* Recommendations */
-    .rec-item {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
-      border-radius: 6px;
-      padding: 0.875rem 1rem;
-      margin-bottom: 0.75rem;
-    }
+    .rec-item { background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 6px; padding: 0.875rem 1rem; margin-bottom: 0.75rem; }
     .rec-item.High   { border-left-color: var(--high); }
     .rec-item.Medium { border-left-color: var(--medium); }
     .rec-item.Low    { border-left-color: var(--low); }
-
     .rec-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.4rem; }
     .rec-action { font-weight: 600; font-size: 0.9rem; }
     .rec-reasoning { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.3rem; }
     .rec-link { font-size: 0.75rem; color: var(--accent); }
 
-    .empty-state {
-      color: var(--muted);
-      font-size: 0.85rem;
-      font-style: italic;
-      padding: 0.5rem 0;
-    }
+    .empty-state { color: var(--muted); font-size: 0.85rem; font-style: italic; padding: 0.5rem 0; }
 
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.75rem;
-      padding: 2rem 1rem;
-      border-top: 1px solid var(--border);
-      margin-top: 3rem;
-    }
+    footer { text-align: center; color: var(--muted); font-size: 0.75rem; padding: 2rem 1rem; border-top: 1px solid var(--border); margin-top: 3rem; }
   </style>
 </head>
 <body>
@@ -371,17 +225,30 @@
       <button class="btn-secondary" onclick="loadSample()">Load Sample Data</button>
       <button class="btn-secondary" onclick="clearAll()">Clear</button>
     </div>
-    <div class="spinner" id="spinner">
-      <div class="spinner-ring"></div>
-      <span>Analysing trade behaviour — this may take 15–30 seconds…</span>
+
+    <!-- Live Reasoning Panel -->
+    <div id="reasoningPanel">
+      <div class="reasoning-header">
+        <div class="pulse"></div>
+        <span id="reasoningLabel">Claude is thinking…</span>
+      </div>
+      <div class="step-track">
+        <div class="step-pill" id="step0">0 · Entity Lookup</div>
+        <div class="step-pill" id="step1">1 · Statistics</div>
+        <div class="step-pill" id="step2">2 · Behaviour</div>
+        <div class="step-pill" id="step3">3 · Risk Metrics</div>
+        <div class="step-pill" id="step4">4 · Self-Check</div>
+        <div class="step-pill" id="step5">5 · Recommendations</div>
+      </div>
+      <div id="reasoningText"></div>
+      <div id="reasoningAnchor"></div>
     </div>
+
     <div class="error-banner" id="errorBanner"></div>
   </div>
 
   <!-- Results -->
   <div id="results">
-
-    <!-- Entity Context -->
     <div class="card" id="sec-entity">
       <div class="section-header">
         <div class="section-icon" style="background:rgba(88,166,255,0.12)">🗂</div>
@@ -391,7 +258,6 @@
       <div class="meta-row" id="entityMeta"></div>
     </div>
 
-    <!-- Basic Stats -->
     <div class="card" id="sec-stats">
       <div class="section-header">
         <div class="section-icon" style="background:rgba(63,185,80,0.12)">📊</div>
@@ -400,7 +266,6 @@
       <div class="stats-grid" id="statsGrid"></div>
     </div>
 
-    <!-- Behavioural Patterns -->
     <div class="card" id="sec-patterns">
       <div class="section-header">
         <div class="section-icon" style="background:rgba(248,81,73,0.12)">🔍</div>
@@ -409,7 +274,6 @@
       <div id="patternsList"></div>
     </div>
 
-    <!-- Risk Metrics -->
     <div class="card" id="sec-risk">
       <div class="section-header">
         <div class="section-icon" style="background:rgba(210,153,34,0.12)">⚠️</div>
@@ -418,7 +282,6 @@
       <div class="risk-grid" id="riskGrid"></div>
     </div>
 
-    <!-- Confidence Check -->
     <div class="card" id="sec-confidence">
       <div class="section-header">
         <div class="section-icon" style="background:rgba(88,166,255,0.12)">✅</div>
@@ -427,7 +290,6 @@
       <div class="confidence-block" id="confidenceBlock"></div>
     </div>
 
-    <!-- Recommendations -->
     <div class="card" id="sec-recs">
       <div class="section-header">
         <div class="section-icon" style="background:rgba(63,185,80,0.12)">💡</div>
@@ -435,7 +297,6 @@
       </div>
       <div id="recsList"></div>
     </div>
-
   </div>
 </main>
 
@@ -453,14 +314,49 @@
 2024-01-18,NIFTY,BUY,75,21480,-2100
 2024-01-19,BANKNIFTY,BUY,25,47800,+3200`;
 
-  function loadSample() {
-    document.getElementById('tradeInput').value = SAMPLE_DATA;
+  // Map keywords in the streamed text → step index
+  const STEP_KEYWORDS = [
+    'STEP 0', 'Entity Extraction',
+    'STEP 1', 'Basic Statistics',
+    'STEP 2', 'Behavioural Pattern',
+    'STEP 3', 'Risk Metrics',
+    'STEP 4', 'Self-Check',
+    'STEP 5', 'Recommendations',
+  ];
+  const STEP_MAP = [
+    [/STEP 0|Entity Extraction/i, 0],
+    [/STEP 1|Basic Stat/i,        1],
+    [/STEP 2|Behavioural Pattern/i,2],
+    [/STEP 3|Risk Metric/i,        3],
+    [/STEP 4|Self.Check/i,         4],
+    [/STEP 5|Recommendation/i,     5],
+  ];
+
+  let currentStep = -1;
+
+  function setStep(idx) {
+    if (idx <= currentStep) return;
+    // Mark previous steps done
+    for (let i = currentStep; i < idx; i++) {
+      if (i >= 0) document.getElementById(`step${i}`).className = 'step-pill done';
+    }
+    document.getElementById(`step${idx}`).className = 'step-pill active';
+    currentStep = idx;
   }
+
+  function detectStep(text) {
+    for (const [re, idx] of STEP_MAP) {
+      if (re.test(text)) setStep(idx);
+    }
+  }
+
+  function loadSample() { document.getElementById('tradeInput').value = SAMPLE_DATA; }
 
   function clearAll() {
     document.getElementById('tradeInput').value = '';
     document.getElementById('results').classList.remove('active');
     hideError();
+    hideReasoning();
   }
 
   function showError(msg) {
@@ -468,33 +364,42 @@
     el.textContent = msg;
     el.classList.add('active');
   }
+  function hideError() { document.getElementById('errorBanner').classList.remove('active'); }
 
-  function hideError() {
-    document.getElementById('errorBanner').classList.remove('active');
+  function showReasoning() {
+    currentStep = -1;
+    document.getElementById('reasoningText').textContent = '';
+    document.getElementById('reasoningLabel').textContent = 'Claude is thinking…';
+    for (let i = 0; i <= 5; i++) document.getElementById(`step${i}`).className = 'step-pill';
+    document.getElementById('reasoningPanel').classList.add('active');
   }
 
-  function setLoading(on) {
-    document.getElementById('spinner').classList.toggle('active', on);
-    document.getElementById('analyzeBtn').disabled = on;
+  function hideReasoning() { document.getElementById('reasoningPanel').classList.remove('active'); }
+
+  function appendReasoning(text) {
+    const el = document.getElementById('reasoningText');
+    el.textContent += text;
+    document.getElementById('reasoningAnchor').scrollIntoView({ block: 'nearest' });
+    detectStep(el.textContent);
   }
 
-  function fmt(val, decimals = 2, prefix = '') {
-    if (val === null || val === undefined) return '<span class="null-val">N/A</span>';
-    return prefix + Number(val).toFixed(decimals);
+  function finishReasoning() {
+    // Mark all remaining steps done
+    for (let i = Math.max(currentStep, 0); i <= 5; i++) {
+      document.getElementById(`step${i}`).className = 'step-pill done';
+    }
+    document.querySelector('.reasoning-header .pulse').style.animation = 'none';
+    document.querySelector('.reasoning-header .pulse').style.background = 'var(--low)';
+    document.getElementById('reasoningLabel').textContent = 'Analysis complete';
   }
 
-  function severityBadge(s) {
-    return `<span class="severity-badge ${s}">${s}</span>`;
-  }
+  function severityBadge(s) { return `<span class="severity-badge ${s}">${s}</span>`; }
 
   function renderResults(data) {
     // Entity Context
-    const pills = document.getElementById('instrumentPills');
-    pills.innerHTML = (data.entity_context.instruments || [])
-      .map(i => `<span class="pill">${i}</span>`).join('');
-
-    const meta = document.getElementById('entityMeta');
-    meta.innerHTML = `
+    document.getElementById('instrumentPills').innerHTML =
+      (data.entity_context.instruments || []).map(i => `<span class="pill">${i}</span>`).join('');
+    document.getElementById('entityMeta').innerHTML = `
       <div class="meta-item">Date Range: <span>${data.entity_context.date_range || 'N/A'}</span></div>
       <div class="meta-item">Records Parsed: <span>${data.entity_context.total_records_parsed ?? 'N/A'}</span></div>
       ${data.entity_context.data_format_issues ? `<div class="meta-item" style="color:var(--warn)">Format Issues: <span>${data.entity_context.data_format_issues}</span></div>` : ''}
@@ -502,97 +407,62 @@
 
     // Basic Stats
     const bs = data.basic_stats;
-    const winRate = bs.win_rate !== null ? bs.win_rate : null;
+    const wr = bs.win_rate;
     document.getElementById('statsGrid').innerHTML = `
-      <div class="stat-box">
-        <div class="stat-label">Total Trades</div>
-        <div class="stat-value">${bs.total_trades ?? '<span class="null-val">N/A</span>'}</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">Win Rate</div>
-        <div class="stat-value ${winRate !== null ? (winRate >= 50 ? 'positive' : 'negative') : ''}">${winRate !== null ? winRate.toFixed(1) + '%' : '<span class="null-val">N/A</span>'}</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">Avg Profit</div>
-        <div class="stat-value positive">${bs.avg_profit !== null ? '₹' + Number(bs.avg_profit).toLocaleString('en-IN', {maximumFractionDigits:0}) : '<span class="null-val">N/A</span>'}</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-label">Avg Loss</div>
-        <div class="stat-value negative">${bs.avg_loss !== null ? '₹' + Number(bs.avg_loss).toLocaleString('en-IN', {maximumFractionDigits:0}) : '<span class="null-val">N/A</span>'}</div>
-      </div>
+      <div class="stat-box"><div class="stat-label">Total Trades</div>
+        <div class="stat-value">${bs.total_trades ?? '<span class="null-val">N/A</span>'}</div></div>
+      <div class="stat-box"><div class="stat-label">Win Rate</div>
+        <div class="stat-value ${wr !== null ? (wr >= 50 ? 'positive' : 'negative') : ''}">
+          ${wr !== null ? wr.toFixed(1) + '%' : '<span class="null-val">N/A</span>'}</div></div>
+      <div class="stat-box"><div class="stat-label">Avg Profit</div>
+        <div class="stat-value positive">${bs.avg_profit !== null ? '₹' + Number(bs.avg_profit).toLocaleString('en-IN', {maximumFractionDigits:0}) : '<span class="null-val">N/A</span>'}</div></div>
+      <div class="stat-box"><div class="stat-label">Avg Loss</div>
+        <div class="stat-value negative">${bs.avg_loss !== null ? '₹' + Number(bs.avg_loss).toLocaleString('en-IN', {maximumFractionDigits:0}) : '<span class="null-val">N/A</span>'}</div></div>
     `;
 
     // Behavioural Patterns
     const pl = document.getElementById('patternsList');
-    if (!data.behavioural_patterns || data.behavioural_patterns.length === 0) {
-      pl.innerHTML = '<div class="empty-state">No significant behavioural patterns detected.</div>';
-    } else {
-      pl.innerHTML = data.behavioural_patterns.map(p => `
-        <div class="pattern-item ${p.severity}">
-          <div class="pattern-top">
-            <span class="pattern-name">${p.pattern}</span>
-            ${severityBadge(p.severity)}
-          </div>
-          <div class="pattern-evidence">${p.evidence}</div>
-          <div class="pattern-dp">${p.supporting_data_points} supporting data point${p.supporting_data_points !== 1 ? 's' : ''}</div>
-        </div>
-      `).join('');
-    }
+    pl.innerHTML = (!data.behavioural_patterns || !data.behavioural_patterns.length)
+      ? '<div class="empty-state">No significant behavioural patterns detected.</div>'
+      : data.behavioural_patterns.map(p => `
+          <div class="pattern-item ${p.severity}">
+            <div class="pattern-top"><span class="pattern-name">${p.pattern}</span>${severityBadge(p.severity)}</div>
+            <div class="pattern-evidence">${p.evidence}</div>
+            <div class="pattern-dp">${p.supporting_data_points} supporting data point${p.supporting_data_points !== 1 ? 's' : ''}</div>
+          </div>`).join('');
 
     // Risk Metrics
     const rm = data.risk_metrics;
     document.getElementById('riskGrid').innerHTML = `
-      <div class="risk-box">
-        <div class="stat-label">Risk/Reward Ratio</div>
-        <div class="stat-value ${rm.risk_reward_ratio !== null ? (rm.risk_reward_ratio >= 1 ? 'positive' : 'negative') : ''}">${rm.risk_reward_ratio !== null ? rm.risk_reward_ratio.toFixed(2) + 'x' : '<span class="null-val">N/A</span>'}</div>
-      </div>
-      <div class="risk-box">
-        <div class="stat-label">Max Drawdown</div>
-        <div class="stat-value negative">${rm.max_drawdown !== null ? '₹' + Math.abs(rm.max_drawdown).toLocaleString('en-IN', {maximumFractionDigits:0}) : '<span class="null-val">N/A</span>'}</div>
-      </div>
-      <div class="risk-box">
-        <div class="stat-label">Profit Factor</div>
-        <div class="stat-value ${rm.profit_factor !== null ? (rm.profit_factor >= 1 ? 'positive' : 'negative') : ''}">${rm.profit_factor !== null ? rm.profit_factor.toFixed(2) : '<span class="null-val">N/A</span>'}</div>
-      </div>
+      <div class="risk-box"><div class="stat-label">Risk/Reward Ratio</div>
+        <div class="stat-value ${rm.risk_reward_ratio !== null ? (rm.risk_reward_ratio >= 1 ? 'positive' : 'negative') : ''}">
+          ${rm.risk_reward_ratio !== null ? rm.risk_reward_ratio.toFixed(2) + 'x' : '<span class="null-val">N/A</span>'}</div></div>
+      <div class="risk-box"><div class="stat-label">Max Drawdown</div>
+        <div class="stat-value negative">${rm.max_drawdown !== null ? '₹' + Math.abs(rm.max_drawdown).toLocaleString('en-IN', {maximumFractionDigits:0}) : '<span class="null-val">N/A</span>'}</div></div>
+      <div class="risk-box"><div class="stat-label">Profit Factor</div>
+        <div class="stat-value ${rm.profit_factor !== null ? (rm.profit_factor >= 1 ? 'positive' : 'negative') : ''}">
+          ${rm.profit_factor !== null ? rm.profit_factor.toFixed(2) : '<span class="null-val">N/A</span>'}</div></div>
     `;
 
     // Confidence Check
     const sc = data.self_check;
     document.getElementById('confidenceBlock').innerHTML = `
-      <div class="conf-badge">
-        <span class="badge-label">Confidence</span>
-        <span class="badge-val ${sc.confidence}">${sc.confidence}</span>
-      </div>
-      <div class="conf-badge">
-        <span class="badge-label">Data Sufficient</span>
-        <span class="badge-val ${sc.data_sufficient}">${sc.data_sufficient ? 'Yes' : 'No'}</span>
-      </div>
-      <div class="conf-badge">
-        <span class="badge-label">Logic Consistent</span>
-        <span class="badge-val ${sc.logic_consistent}">${sc.logic_consistent ? 'Yes' : 'No'}</span>
-      </div>
-      <div class="caveats-box">
-        <strong>Caveats</strong>
-        ${sc.caveats || 'None'}
-      </div>
+      <div class="conf-badge"><span class="badge-label">Confidence</span><span class="badge-val ${sc.confidence}">${sc.confidence}</span></div>
+      <div class="conf-badge"><span class="badge-label">Data Sufficient</span><span class="badge-val ${sc.data_sufficient}">${sc.data_sufficient ? 'Yes' : 'No'}</span></div>
+      <div class="conf-badge"><span class="badge-label">Logic Consistent</span><span class="badge-val ${sc.logic_consistent}">${sc.logic_consistent ? 'Yes' : 'No'}</span></div>
+      <div class="caveats-box"><strong>Caveats</strong>${sc.caveats || 'None'}</div>
     `;
 
     // Recommendations
     const rl = document.getElementById('recsList');
-    if (!data.recommendations || data.recommendations.length === 0) {
-      rl.innerHTML = '<div class="empty-state">No specific recommendations at this time.</div>';
-    } else {
-      rl.innerHTML = data.recommendations.map(r => `
-        <div class="rec-item ${r.priority}">
-          <div class="rec-top">
-            <span class="rec-action">${r.action}</span>
-            ${severityBadge(r.priority)}
-          </div>
-          <div class="rec-reasoning">${r.reasoning}</div>
-          <div class="rec-link">Linked to: ${r.linked_pattern_or_metric}</div>
-        </div>
-      `).join('');
-    }
+    rl.innerHTML = (!data.recommendations || !data.recommendations.length)
+      ? '<div class="empty-state">No specific recommendations at this time.</div>'
+      : data.recommendations.map(r => `
+          <div class="rec-item ${r.priority}">
+            <div class="rec-top"><span class="rec-action">${r.action}</span>${severityBadge(r.priority)}</div>
+            <div class="rec-reasoning">${r.reasoning}</div>
+            <div class="rec-link">Linked to: ${r.linked_pattern_or_metric}</div>
+          </div>`).join('');
 
     document.getElementById('results').classList.add('active');
     document.getElementById('sec-entity').scrollIntoView({ behavior: 'smooth' });
@@ -601,14 +471,11 @@
   async function analyze() {
     hideError();
     const tradeData = document.getElementById('tradeInput').value.trim();
+    if (!tradeData) { showError('Please paste your trade data before analysing.'); return; }
 
-    if (!tradeData) {
-      showError('Please paste your trade data before analysing.');
-      return;
-    }
-
-    setLoading(true);
+    document.getElementById('analyzeBtn').disabled = true;
     document.getElementById('results').classList.remove('active');
+    showReasoning();
 
     try {
       const res = await fetch('/analyze', {
@@ -617,22 +484,52 @@
         body: JSON.stringify({ trade_data: tradeData }),
       });
 
-      const data = await res.json();
-
+      // Handle non-streaming error responses (validation errors)
       if (!res.ok) {
-        showError(data.error || 'An error occurred. Please try again.');
+        const err = await res.json();
+        showError(err.error || 'An error occurred.');
+        hideReasoning();
         return;
       }
 
-      renderResults(data);
+      // Stream the SSE response
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop(); // keep incomplete line
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const payload = JSON.parse(line.slice(6));
+
+          if (payload.type === 'chunk') {
+            appendReasoning(payload.text);
+
+          } else if (payload.type === 'result') {
+            finishReasoning();
+            renderResults(payload.data);
+
+          } else if (payload.type === 'error') {
+            hideReasoning();
+            showError(payload.message);
+          }
+        }
+      }
     } catch (err) {
+      hideReasoning();
       showError('Network error: Could not reach the server. Is the backend running?');
     } finally {
-      setLoading(false);
+      document.getElementById('analyzeBtn').disabled = false;
     }
   }
 
-  // Allow Ctrl+Enter to submit
   document.getElementById('tradeInput').addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') analyze();
   });
