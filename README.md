@@ -1,7 +1,7 @@
 # TradeMind — Trade Behaviour Analyser Agent (EAG Week 5)
 
 ## Demo
-[paste youtube link here after recording]
+https://youtu.be/aCFIvGDFhjg
 
 ## What It Does
 A multi-step AI agent that analyses trading history across 6 structured reasoning
@@ -188,6 +188,89 @@ FALLBACK RULE: If the user provides no trade data or data that cannot be parsed,
 return the JSON with all numeric fields as null, behavioural_patterns as [],
 recommendations as [], and self_check.caveats explaining exactly what was missing.
 ```
+
+## Sample Output
+
+Input: 10 trades across NIFTY and BANKNIFTY (2024-01-15 to 2024-01-19)
+
+<details>
+<summary>Click to expand full JSON output</summary>
+
+```json
+{
+  "entity_context": {
+    "instruments": ["NIFTY", "BANKNIFTY"],
+    "date_range": "2024-01-15 to 2024-01-19",
+    "total_records_parsed": 10,
+    "data_format_issues": null
+  },
+  "basic_stats": {
+    "total_trades": 10,
+    "win_rate": 50.0,
+    "avg_profit": 2100,
+    "avg_loss": 3500
+  },
+  "behavioural_patterns": [
+    {
+      "pattern": "Position Sizing Escalation After Losses (Revenge Trading)",
+      "evidence": "Trade 6 (Win +2100, qty 50) immediately followed by Trade 7 (Loss -6500, qty 200): 4x size increase. Position sizes [50,50,25,100,150,50,200,50,75,25] show coefficient of variation of 70%, far exceeding 50% threshold.",
+      "supporting_data_points": 7,
+      "severity": "High"
+    },
+    {
+      "pattern": "Concentration on Lower-Performing Instrument",
+      "evidence": "NIFTY: 8 trades (80%), net P&L -5400. BANKNIFTY: 2 trades (20%), net P&L +1800. Capital allocation inverse to performance.",
+      "supporting_data_points": 3,
+      "severity": "Medium"
+    },
+    {
+      "pattern": "Overtrading During Single Trading Sessions",
+      "evidence": "Jan 15: 3 trades (net -1700). Jan 16: 2 trades (net -2400). Jan 17: 2 trades (net -4400). Pattern suggests reactive trading rather than pre-planned strategy.",
+      "supporting_data_points": 5,
+      "severity": "Medium"
+    }
+  ],
+  "risk_metrics": {
+    "risk_reward_ratio": 0.6,
+    "max_drawdown": 12700,
+    "profit_factor": 0.6
+  },
+  "self_check": {
+    "data_sufficient": true,
+    "confidence": "Medium",
+    "logic_consistent": true,
+    "caveats": "Dataset contains exactly 10 trades over 5 days, sitting at the boundary of statistical sufficiency. Conclusions are preliminary — recommend validation over 30+ additional trades before confirming patterns as persistent behaviour."
+  },
+  "recommendations": [
+    {
+      "action": "Implement Fixed Position Sizing Rule",
+      "reasoning": "Position size CV of 70% far exceeds the 50% threshold. Emotional sizing is the primary driver of the ₹12,700 drawdown. Fix to max 50 contracts or 2% of account equity per trade.",
+      "linked_pattern_or_metric": "Position Sizing Escalation After Losses (High severity)",
+      "priority": "High"
+    },
+    {
+      "action": "Enforce Mandatory Trade Pause After Losses",
+      "reasoning": "Multiple same-session loss sequences detected. After any loss exceeding 2% of account equity, enforce a mandatory 60-minute pause before next entry to break the revenge-trading cycle.",
+      "linked_pattern_or_metric": "Position Sizing Escalation + Overtrading (High + Medium severity)",
+      "priority": "High"
+    },
+    {
+      "action": "Rebalance Instrument Allocation Toward BANKNIFTY",
+      "reasoning": "BANKNIFTY achieved 66.7% win rate and net +1800 P&L with only 20% allocation. NIFTY achieved 50% win rate and net -5400 P&L with 80% allocation.",
+      "linked_pattern_or_metric": "Concentration on Lower-Performing Instrument (Medium severity)",
+      "priority": "Medium"
+    },
+    {
+      "action": "Establish Risk-Reward Entry Filter (Ratio ≥ 1.5)",
+      "reasoning": "Current risk_reward_ratio = 0.6 indicates negative expectancy. Only enter trades where profit target ≥ 1.5× the stop-loss distance.",
+      "linked_pattern_or_metric": "risk_reward_ratio = 0.6, profit_factor = 0.6",
+      "priority": "Medium"
+    }
+  ]
+}
+```
+
+</details>
 
 ## Edge Cases Handled
 - Fewer than 5 trades → warning shown on UI, no API call made
